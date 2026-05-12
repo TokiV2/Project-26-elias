@@ -5,8 +5,16 @@ body{
 }
 fieldset{
 margin: 75Px;
+margin-left: 25px;
 
 
 
+}
+form{
+align-items: center;
+text-align: center;
+}
+input{
+margin: 10px;
 
 }
