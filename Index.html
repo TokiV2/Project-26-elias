@@ -11,16 +11,64 @@
     <fieldset>
         <legend>Formulario</legend>
         <form action="POST">       
-          Nome <input type="text" name="nome"> <br> 
-          Idade<input type="text" name="idade"> <br> 
-          Senha <input type="text" name="senha"> <br> 
-          Gmail<input type="text" name="gmail"> <br> 
-          CPF <input type="text" name="cpf"><br> 
-          CEP<input type="text" name="cep"><br> 
-          Telefone <input type="text" name="telefone"><br> 
+          Nome <input type="text" name="nome" placeholder="DIGITE SEU NOME"><br> 
+          Idade<input type="text" name="idade" placeholder="DIGITE SEU IDADE"><br> 
+          Senha <input type="text" name="senha" placeholder="DIGITE SEU SENHA"><br> 
+          Gmail<input type="text" name="gmail" placeholder="DIGITE SEU GMAIL"><br> 
+          CPF <input type="text" name="cpf" placeholder="DIGITE SEU CPF"><br> 
+          CEP<input type="text" name="cep" placeholder="DIGITE SEU CEP"><br> 
+          Telefone <input type="text" name="telefone" placeholder="DIGITE SEU TELEFONE"><br> 
        <input type="submit" value="cadastrar"><br> 
     </form>
   </fieldset>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById("FUMUARIO");
+    const mensagem = document.getElementById("mensagem");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const cpf = document.getElementById("cpf").value;
+      const nome = document.getElementById("nome").value;
+      const email = document.getElementById("email").value;
+      const telefone = document.getElementById("telefone").value;
+      const senha = document.getElementById("senha").value;
+
+      try {
+        await addDoc(collection(db, "usuarios"), {
+          cpf,
+          nome,
+          email,
+          telefone,
+          senha,
+          idade,
+          cep
+        });
+
+        mensagem.textContent = "Usuário salvo com sucesso.";
+        mensagem.style.color = "green";
+        form.reset();
+      } catch (error) {
+        mensagem.textContent = "Erro ao salvar: " + error.message;
+        mensagem.style.color = "red";
+      }
+    });
+  </script>
 </main>
 </body>
 </html> 
